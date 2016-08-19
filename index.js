@@ -12,11 +12,12 @@ Object.keys(zlib).forEach(function (key) {
 function gzipRedis (redis, options) {
 	options = options || {};
 
+	var level = options.level || zlib.Z_DEFAULT_COMPRESSION;
 	var gzip = zlib.gzip;
 	var gunzip = zlib.gunzip;
 
 	redis.setz = function (key, data, cb) {
-		gzip(data, function (err, data) {
+		gzip(data, level, function (err, data) {
 			if (err) {
 				return cb(err);
 			}
